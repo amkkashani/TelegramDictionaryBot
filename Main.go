@@ -25,8 +25,20 @@ func main() {
 
 	updates, err := bot.GetUpdatesChan(u)
 
+
 	for update := range updates {
 		if update.Message == nil { // ignore any non-Message Updates
+			continue
+		}
+		if update.Message.IsCommand(){
+			switch update.Message.Command() {
+			case "help":
+				msg :=tgbotapi.NewMessage(update.Message.Chat.ID, "i will help you")
+				bot.Send(msg)
+			case "img":
+				img := tgbotapi.NewPhotoShare(update.Message.Chat.ID,"https://image.shutterstock.com/image-photo/surreal-image-african-elephant-wearing-600w-1365289022.jpg")
+				bot.Send(img)
+			}
 			continue
 		}
 
